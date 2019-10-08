@@ -246,7 +246,12 @@ getOverviewDataset(GDALDatasetH hSrcDS, GDALTransformerFunc pfnTransformer, void
               if( iOvr >= 0 )
                 {
                   //std::cout << "CTB WARPING: Selecting overview level " << iOvr << " for output dataset " << nPixels << "x" << nLines << std::endl;
+                #if ( GDAL_VERSION_MAJOR >= 2 && GDAL_VERSION_MINOR >= 2 )
+                  #include "gdaloverviewdataset.cpp"
                   poSrcOvrDS = GDALCreateOverviewDataset( poSrcDS, iOvr, FALSE );
+                #else
+                  poSrcOvrDS = GDALCreateOverviewDataset( poSrcDS, iOvr, FALSE, FALSE );
+                #endif
                 }
             }
         }
